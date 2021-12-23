@@ -33,26 +33,35 @@ create-funcdocker
 
 This will guide you through some questions and based on your answers create the files needed to containerize your Azure Functions.
 
+>> Attention: When executing the CLI, you do not need to be in an Azure Functions Project. You can create the files also independent of a project.
+
 You can also feed-in the parameters directly into the CLI. The following parameters are available:
 
 ```shell
 --help                |   -h:  Help for create-funcdocker CLI
---manually            |   -m:  Do not collect information from Azure FUnctions project 
+--manually            |   -m:  Suppress collection of configuration from Azure Functions project
+--dryrun              |   -d:  Execute the generation in dry run, no files are written 
 --language            | --la:  Language used for the Azure Functions
 --lversion            | --lv:  Version of the language e.g. 16 for nodeJS
 --funccoreversion     | --fv:  Version of the Azure Function Runtime (3 or 4)
 --dockerbaseimage     | --di:  Name of the Docker base image that shall be used 
 --disablefunchomepage | --dh:  Disable the Azure Functions homepage
 --defaultport         | --dp:  Override the exposed default port of your Azure Function
---addmakefile         | --am:  add a Makefile
+--addmakefile         | --am:  Add a Makefile
 --dockerid            | --id:  ID of your Docker account
---appname             | --an:  name of your application 
---appversion          | --av:  version of your application
+--appname             | --an:  Name of your application 
+--appversion          | --av:  Version of your application
 ```
 
 If you provide some parameters, the remaining ones will then be fetched by the CLI in an interactive mode.
 
-If you start the CLI in a directory that contains an Azure Functions project it will do its best to collect the information from the project settings. You can switch this off by setting the flag ` --manually | -m`
+### Execution in an Azure Functions project
+
+If you start the CLI in a directory that contains an Azure Functions project the CLI will do its best to collect the information from the project settings. You can switch this off by setting the flag ` --manually | -m`. The parameter must be set when calling the CLI, you will not be asked in the interactive mode.
+
+### Dry Run
+
+You can also execute the CLI in dry run mode by setting the flag `--dryrun | -d`. This means that the CLI will execute all steps as in a regular execution, but the files will not be written to your file system. Instead you the CLI will show the file content in the console. The parameter must be set when calling the CLI, you will not be asked in the interactive mode.
 
 ## Development and Contributions
 

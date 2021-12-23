@@ -2,7 +2,7 @@ import arg from 'arg'
 import { Listr } from 'listr2'
 import chalk from 'chalk'
 import { completeUserInput } from './inputHelper'
-import { writeDockerFile, writeDockerIgnoreFile, writeMakeFile } from './writer'
+import { writeDockerFile, writeDockerIgnoreFile, writeMakeFile, writeFilesInDryRunMode } from './writer'
 import { validateOptions, hasInputValidationFailed } from './inputValidator'
 import { getHelpText } from './helpTextUtil'
 import { fetchOptionsFromSettings } from './configReader'
@@ -54,11 +54,20 @@ export async function cli(args) {
 
             }
 
-            let taskArray = getTaskArrayByOptions(optionsAfterUserInput)
+            if (optionsAfterUserInput.dryrun === true) {
 
-            const tasks = new Listr(taskArray)
+                writeFilesInDryRunMode(optionsAfterUserInput)
 
-            await tasks.run()
+            }
+            else {
+
+                let taskArray = getTaskArrayByOptions(optionsAfterUserInput)
+
+                const tasks = new Listr(taskArray)
+
+                await tasks.run()
+
+            }
 
             console.log(chalk.green('DONE'), '- All files have been generated')
 
@@ -85,6 +94,7 @@ function parseArgumentsIntoOptions(rawArgs) {
             '--appversion': String,
             '--help': Boolean,
             '--manually': Boolean,
+            '--dryrun': Boolean,
             '--la': '--language',
             '--lv': '--lversion',
             '--fv': '--funccoreversion',
@@ -96,7 +106,8 @@ function parseArgumentsIntoOptions(rawArgs) {
             '--an': '--appname',
             '--av': '--appversion',
             '-h': '--help',
-            '-m': '--manually'
+            '-m': '--manually',
+            '-d': '--dryrun'
         },
         {
             argv: rawArgs.slice(2)
@@ -115,7 +126,8 @@ function parseArgumentsIntoOptions(rawArgs) {
         appname: args['--appname'] || '',
         appversion: args['--appversion'] || '',
         help: args['--help'] || false,
-        manually: args['--manually'] || false
+        manually: args['--manually'] || false,
+        dryrun: args['--dryrun'] || false
     }
 }
 
