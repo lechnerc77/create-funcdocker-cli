@@ -1,0 +1,43 @@
+{
+  "name": "@lechnerc77/create-funcdocker-cli",
+  "version": "0.0.1",
+  "description": "CLI tool to create Docker files for Azure Functions",
+  "main": "src/index.js",
+  "bin": {
+    "create-funcdocker": "bin/create-funcdocker"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lechnerc77/create-funcdocker-cli.git"
+  },
+  "keywords": [
+    "Azure",
+    "Functions",
+    "Docker",
+    "Container",
+    "CLI"
+  ],
+  "author": "Christian Lechner",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lechnerc77/create-funcdocker-cli/issues"
+  },
+  "homepage": "https://github.com/lechnerc77/create-funcdocker-cli",
+  "dependencies": {
+    "arg": "^5.0.1",
+    "chalk": "^4.1.2",
+    "esm": "^3.2.25",
+    "inquirer": "^8.2.0",
+    "listr2": "^3.13.5"
+  },
+  "files": [
+    "bin/",
+    "src/"
+  ]
+}
