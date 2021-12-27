@@ -1,6 +1,6 @@
 {
   "name": "@lechnerc77/create-funcdocker-cli",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "CLI to create Docker files (and more) for Azure Functions",
   "main": "src/index.js",
   "bin": {
