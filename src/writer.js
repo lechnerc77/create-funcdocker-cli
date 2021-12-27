@@ -1,6 +1,6 @@
-import { writeFile } from 'fs/promises'
+import { writeFile, access, mkdir } from 'fs/promises'
 import chalk from 'chalk'
-import { buildDockerFileContent, buildDockerIgnoreFileContent, buildMakeFileContent } from './builder'
+import { buildDockerFileContent, buildDockerIgnoreFileContent, buildMakeFileContent, buildKubernetesFileContent } from './builder'
 
 export async function writeDockerFile(options) {
 
@@ -22,6 +22,22 @@ export async function writeMakeFile(options) {
     const content = buildMakeFileContent(options)
 
     await writeFile(`Makefile`, content)
+}
+
+export async function writeKubernetesDeploymentFile(options) {
+
+    const content = buildKubernetesFileContent(options)
+
+    const dir = './k8s'
+    const filepath = `${dir}/deployment.yaml`
+
+    try {
+        await access(dir)
+    } catch (error) {
+        await mkdir(dir)
+    }
+
+    await writeFile(filepath, content)
 }
 
 export function writeFilesInDryRunMode(options) {
@@ -77,5 +93,21 @@ export function writeFilesInDryRunMode(options) {
         console.log(contentMakefile)
 
         console.log('\n')
+    }
+
+    if (options.kubernetes === true) {
+        const boxContentDockerIgnore = chalk.yellow('| deployment.yaml    |')
+
+        console.log(boxHeader)
+        console.log(boxEmptyLine)
+        console.log(boxContentDockerIgnore)
+        console.log(boxEmptyLine)
+        console.log(boxFooter)
+
+        const contentDockerIgnore = buildKubernetesFileContent(options)
+        console.log(contentDockerIgnore)
+
+        console.log('\n')
+
     }
 }

@@ -35,6 +35,55 @@ export function buildDockerIgnoreFileContent(options) {
     return '.vscode \nlocal.settings.json \nMakefile \ndeployment.yaml \n*.http \n*.md'
 }
 
+export function buildKubernetesFileContent(options) {
+    let content
+
+    content = `kind: Service\n`
+    content += `apiVersion: v1\n`
+    content += `metadata:\n`
+    content += `  name: ${options.appname}\n`
+    content += `  labels:\n`
+    content += `    app: ${options.appname}\n`
+    content += `spec:\n`
+    content += `  selector:\n`
+    content += `    app: ${options.appname}\n`
+    content += `  ports:\n`
+    content += `    - protocol: TCP\n`
+    content += `      port: ${options.defaultport}\n`
+    content += `      targetPort: ${options.defaultport}\n`
+    content += `  type: ClusterIP\n`
+    content += '\n'
+    content += `---\n`
+    content += `apiVersion: apps/v1\n`
+    content += `kind: Deployment\n`
+    content += `metadata:\n`
+    content += `  name: ${options.appname}\n`
+    content += `  labels:\n`
+    content += `    app: ${options.appname}\n`
+    content += `spec:\n`
+    content += `  replicas: 1\n`
+    content += `  selector:\n`
+    content += `    matchLabels:\n`
+    content += `      app: ${options.appname}\n`
+    content += `  template:\n`
+    content += `    metadata:\n`
+    content += `      labels:\n`
+    content += `        app: ${options.appname}\n`
+    content += `      annotations:\n`
+    content += `        dapr.io/enabled: "true"\n`
+    content += `        dapr.io/app-id: "${options.appname}"\n`
+    content += `        dapr.io/app-port: "${options.defaultport}"\n`
+    content += `    spec:\n`
+    content += `      containers:\n`
+    content += `        - name: ${options.appname}\n`
+    content += `          image: ${options.dockerid}/${options.appname}:${options.appversion}\n`
+    content += `          ports:\n`
+    content += `            - containerPort: ${options.defaultport}\n`
+    content += `          imagePullPolicy: Always\n`
+
+    return content
+}
+
 export function buildMakeFileContent(options) {
 
     let content

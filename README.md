@@ -51,9 +51,12 @@ You can also feed-in the parameters directly into the CLI. The following paramet
 --dockerid            | --id:  ID of your Docker account
 --appname             | --an:  Name of your application 
 --appversion          | --av:  Version of your application
+--kubernetes          |  --k:  Create a Kubernetes deplyoment file 
 ```
 
 If you provide some parameters, the remaining ones will then be fetched by the CLI in an interactive mode.
+
+>> Attention: The CLI will overwrite existing files.
 
 ### Execution in an Azure Functions project
 
@@ -62,6 +65,10 @@ If you start the CLI in a directory that contains an Azure Functions project the
 ### Dry Run
 
 You can also execute the CLI in dry run mode by setting the flag `--dryrun | -d`. This means that the CLI will execute all steps as in a regular execution, but the files will not be written to your file system. Instead you the CLI will show the file content in the console. The parameter must be set when calling the CLI, you will not be asked in the interactive mode.
+
+### Kubernetes
+
+The flag `--kuberntes | --k` creates a sample deployment file for your containerized Azure Function. It will be created in a folder `k8s` and consists of a deployment and a service (type `ClusterIP`). If the folder does not exist it will be created.
 
 ## Development and Contributions
 
@@ -77,7 +84,7 @@ Contributions to the CLI are highly welcome. If you want to start developing you
    npm link
    ```
 
-You can now call the CLI via 
+You can now call the CLI via:
 
 ```shell
 create-funcdocker 

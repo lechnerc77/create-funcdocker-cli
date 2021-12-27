@@ -132,3 +132,6 @@ Dockerfile
 
 # Make
 MAKEFILE
+
+# K8s
+k8s/

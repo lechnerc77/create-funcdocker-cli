@@ -22,6 +22,7 @@ Options:
   --id  --dockerid:            ID of your Docker account
   --an  --appname:             name of your application 
   --av  --appversion:          version of your application
+  --k   --kubernetes:          create a Kubernetes deployment file 
 `
   return helpText
 }

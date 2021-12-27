@@ -2,7 +2,7 @@ import arg from 'arg'
 import { Listr } from 'listr2'
 import chalk from 'chalk'
 import { completeUserInput } from './inputHelper'
-import { writeDockerFile, writeDockerIgnoreFile, writeMakeFile, writeFilesInDryRunMode } from './writer'
+import { writeDockerFile, writeDockerIgnoreFile, writeMakeFile, writeFilesInDryRunMode, writeKubernetesDeploymentFile } from './writer'
 import { validateOptions, hasInputValidationFailed } from './inputValidator'
 import { getHelpText } from './helpTextUtil'
 import { fetchOptionsFromSettings } from './configReader'
@@ -92,6 +92,7 @@ function parseArgumentsIntoOptions(rawArgs) {
             '--dockerid': String,
             '--appname': String,
             '--appversion': String,
+            '--kubernetes': Boolean,
             '--help': Boolean,
             '--manually': Boolean,
             '--dryrun': Boolean,
@@ -105,6 +106,7 @@ function parseArgumentsIntoOptions(rawArgs) {
             '--id': '--dockerid',
             '--an': '--appname',
             '--av': '--appversion',
+            '--k': '--kubernetes',
             '-h': '--help',
             '-m': '--manually',
             '-d': '--dryrun'
@@ -125,6 +127,7 @@ function parseArgumentsIntoOptions(rawArgs) {
         dockerid: args['--dockerid'] || '',
         appname: args['--appname'] || '',
         appversion: args['--appversion'] || '',
+        kubernetes: args['--kubernetes'] || '',
         help: args['--help'] || false,
         manually: args['--manually'] || false,
         dryrun: args['--dryrun'] || false
@@ -148,6 +151,13 @@ function getTaskArrayByOptions(options) {
         taskArray.push({
             title: 'Create Makefile',
             task: async (_, task) => { await writeMakeFile(options) }
+        })
+    }
+
+    if (options.kubernetes) {
+        taskArray.push({
+            title: 'Create Kubernetes deployment file',
+            task: async (_, task) => { await writeKubernetesDeploymentFile(options) }
         })
     }
 

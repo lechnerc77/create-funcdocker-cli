@@ -64,6 +64,30 @@ export async function completeUserInput(optionsToComplete) {
 
     }
 
+    if (options.kubernetes === '') {
+
+        options.kubernetes = await promptForMissingKubernetes(options)
+
+    }
+
+    if (options.kubernetes === true && options.dockerid === '') {
+
+        options.dockerid = await promptForMissingDockerId(options)
+
+    }
+
+    if (options.kubernetes === true && options.appname === '') {
+
+        options.appname = await promptForMissingAppName(options)
+
+    }
+
+    if (options.kubernetes === true && options.appversion === '') {
+
+        options.appversion = await promptForMissingAppVersion(options)
+
+    }
+
     return options
 
 }
@@ -301,4 +325,22 @@ async function promptForMissingAppVersion(options) {
     const answers = await inquirer.prompt(questions)
 
     return answers.appversion
+}
+
+async function promptForMissingKubernetes(options) {
+
+    const questions = []
+
+    if (!options.kubernetes) {
+
+        questions.push({
+            type: 'confirm',
+            name: 'kubernetes',
+            message: 'Should a Kubernetes deployment file be created?'
+        })
+    }
+
+    const answers = await inquirer.prompt(questions)
+
+    return answers.kubernetes
 }
