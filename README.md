@@ -6,6 +6,8 @@ This CLI supports you in scaffolding the files necessary to create Azure Functio
 
 - `Dockerfile`
 - `.dockerignore`
+- `Makefile` (optional)
+- `deployment.yaml` for Kubernetes deployments (optional)
 
 including several options that control the behavior of the containerized Azure Functions.
 
