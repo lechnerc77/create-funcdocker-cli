@@ -10,6 +10,7 @@ Usage:
 
 Options:
   -h,   --help                 help for create-funcdocker CLI
+  -v,   --version              show version of create-funcdocker CLI
   -m,   --manually             suppress collection of configuration from Azure Functions project
   -d    --dryrun               execute the generation in dry run, no files are written 
   --la  --language             language of the project

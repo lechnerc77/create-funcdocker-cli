@@ -41,6 +41,7 @@ You can also feed-in the parameters directly into the CLI. The following paramet
 
 ```shell
 --help                |   -h:  Help for create-funcdocker CLI
+--version             |   -v:  Version of create-funcdocker CLI
 --manually            |   -m:  Suppress collection of configuration from Azure Functions project
 --dryrun              |   -d:  Execute the generation in dry run, no files are written 
 --language            | --la:  Language used for the Azure Functions

@@ -5,6 +5,7 @@ import { completeUserInput } from './inputHelper'
 import { writeDockerFile, writeDockerIgnoreFile, writeMakeFile, writeFilesInDryRunMode, writeKubernetesDeploymentFile } from './writer'
 import { validateOptions, hasInputValidationFailed } from './inputValidator'
 import { getHelpText } from './helpTextUtil'
+import { getVersionText } from './versionTextUtil'
 import { fetchOptionsFromSettings } from './configReader'
 
 export async function cli(args) {
@@ -27,7 +28,11 @@ export async function cli(args) {
         return
 
     }
+    else if (optionsFromCli.version) {
 
+        console.log(getVersionText())
+        return
+    }
     else {
         try {
 
@@ -96,6 +101,7 @@ function parseArgumentsIntoOptions(rawArgs) {
             '--help': Boolean,
             '--manually': Boolean,
             '--dryrun': Boolean,
+            '--version': Boolean,
             '--la': '--language',
             '--lv': '--lversion',
             '--fv': '--funccoreversion',
@@ -109,7 +115,8 @@ function parseArgumentsIntoOptions(rawArgs) {
             '--k': '--kubernetes',
             '-h': '--help',
             '-m': '--manually',
-            '-d': '--dryrun'
+            '-d': '--dryrun',
+            '-v': '--version'
         },
         {
             argv: rawArgs.slice(2)
@@ -130,7 +137,8 @@ function parseArgumentsIntoOptions(rawArgs) {
         kubernetes: args['--kubernetes'] || '',
         help: args['--help'] || false,
         manually: args['--manually'] || false,
-        dryrun: args['--dryrun'] || false
+        dryrun: args['--dryrun'] || false,
+        version: args['--version'] || false
     }
 }
 
